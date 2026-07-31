@@ -1,0 +1,8 @@
+conda activate ai_chem
+
+cd "C:\Users\cyzlf\Desktop\网站搭建\MolecularPropertyPlatform"
+
+python app.py
+
+
+Single Prediction和Batch Prediction

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Molecular Property Prediction Platform</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <script src="https://unpkg.com/kekule/dist/kekule.js"></script>
+    <link rel="stylesheet"
+    href="https://unpkg.com/kekule/dist/themes/default/kekule.css">
+</head>
+<body>
+
+<!-- 公共标题和模式切换按钮（独立于两个页面） -->
+<div class="header">
+    <h1>Molecular Property Prediction Platform</h1>
+    <div class="mode-selector">
+        <button id="single-mode-btn" class="mode-btn active" onclick="showSingleMode()">Single Prediction</button>
+        <button id="batch-mode-btn" class="mode-btn" onclick="showBatchMode()">Batch Prediction</button>
+    </div>
+</div>
+
+<!-- Single Prediction 页面 -->
+<div id="single-page">
+    <div class="container">
+        <!-- 注意：这里不再包含 mode-selector -->
+        <div class="nav">
+            <button class="nav-btn active" data-target="triplet" data-title="三线态能量预测">三线态能量</button>
+            <button class="nav-btn" data-target="singlet" data-title="单线态能量预测">单线态能量</button>
+            <button class="nav-btn" data-target="oxidation" data-title="氧化电势预测">氧化电势</button>
+            <button class="nav-btn" data-target="reduction" data-title="还原电势预测">还原电势</button>
+            <button class="nav-btn" data-target="absorption" data-title="激发波长预测">激发波长</button>
+        </div>
+
+        <h2 id="current-title">三线态能量预测</h2>
+
+        <div class="smiles-box">
+
+            <input
+                id="smiles"
+                type="text"
+                placeholder="请输入 SMILES">
+
+            <button id="draw-btn">
+                🧬 画分子
+            </button>
+
+        </div>
+
+        <button id="predict-btn">
+            开始预测
+        </button>
+
+        <div id="editor-dialog">
+
+            <div id="editor">
+
+            </div>
+
+
+            <button id="use-structure">
+                使用该结构
+            </button>
+
+        </div>
+
+
+        <div id="loading">Predicting...</div>
+
+        <div class="content">
+            <div class="structure-panel">
+                <h3>二维结构</h3>
+                <img id="mol-image" src="" alt="Structure">
+
+                <div class="info-panel" style="margin-top: 20px; border-top: 1px solid #eee; padding-top: 15px;">
+                    <h3>分子基本信息</h3>
+                    <ul style="list-style: none; padding: 0; line-height: 25px;">
+                        <li><strong>化学式:</strong> <span id="formula">-</span></li>
+                        <li><strong>分子量:</strong> <span id="molwt">-</span></li>
+                        <li><strong>TPSA:</strong> <span id="tpsa">-</span></li>
+                        <li><strong>LogP:</strong> <span id="logp">-</span></li>
+                        <li><strong>氢键受体 (HBA):</strong> <span id="hba">-</span></li>
+                        <li><strong>氢键供体 (HBD):</strong> <span id="hbd">-</span></li>
+                        <li><strong>可旋转键数:</strong> <span id="rotatable">-</span></li>
+                        <li><strong>环个数:</strong> <span id="rings">-</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="prediction-panel">
+                <div id="result"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Batch Prediction 页面 -->
+<div id="batch-page" style="display:none;">
+    <div class="container">
+        <h2>Batch Prediction</h2>
+        <p>Upload CSV or Excel file.</p>
+
+        <input type="file" id="batch-file">
+        <button id="upload-btn">Upload & Preview</button>
+
+        <hr>
+
+        <div id="batch-interactive-zone" style="display: none; margin: 20px 0; padding: 15px; background: #f9f9f9; border-radius: 5px;">
+            <h3 style="margin-top: 0;">选择预测目标性质</h3>
+            <select id="batch-target-select" style="padding: 8px; font-size: 14px; margin-right: 15px; border-radius: 4px; border: 1px solid #ccc;">
+                <option value="triplet">三线态能量</option>
+                <option value="singlet">单线态能量</option>
+                <option value="oxidation">氧化电势</option>
+                <option value="reduction">还原电势</option>
+                <option value="absorption">激发波长</option>
+            </select>
+            <button id="start-batch-predict-btn" style="padding: 8px 20px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">开始批量预测</button>
+
+            <div id="batch-status" style="margin-top: 15px; font-weight: bold; font-size: 15px;"></div>
+        </div>
+
+        <div id="preview-table"></div>
+    </div>
+</div>
+
+
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
