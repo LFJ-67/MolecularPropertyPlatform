@@ -1,0 +1,113 @@
+# ==============================
+# Python
+# ==============================
+
+# Python cache
+__pycache__/
+**/__pycache__/
+
+# Compiled Python files
+*.py[cod]
+*$py.class
+
+# Python virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# Packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+
+# ==============================
+# Testing / Coverage
+# ==============================
+
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+
+# ==============================
+# Type checking / Linters
+# ==============================
+
+.mypy_cache/
+.ruff_cache/
+.pyre/
+
+
+# ==============================
+# Flask / Environment
+# ==============================
+
+# Environment variables / secrets
+.env
+.env.*
+!.env.example
+
+# Flask instance folder
+instance/
+
+
+# ==============================
+# IDE
+# ==============================
+
+.vscode/
+.idea/
+.vs/
+
+
+# ==============================
+# Operating System
+# ==============================
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# macOS
+.DS_Store
+
+
+# ==============================
+# Runtime generated files
+# ==============================
+
+# User uploaded files
+uploads/*
+
+# Keep the directory in Git
+!uploads/.gitkeep
+
+# Prediction results
+results/*
+
+# Keep the directory in Git
+!results/.gitkeep
+
+
+# ==============================
+# Logs / temporary files
+# ==============================
+
+*.log
+logs/
+*.tmp
+*.temp
+
+
+# ==============================
+# Local databases
+# ==============================
+
+*.db
+*.sqlite
+*.sqlite3
