@@ -33,7 +33,7 @@ MODEL_CONFIG = {
     },
 
     "absorption": {
-        "title": "最大吸收波长",
+        "title": "激发波长",
         "unit": "nm",
         "model_path": os.path.join(BASE_DIR, "models", "absorption", "gnn_model.pth"),
         "scaler_path": os.path.join(BASE_DIR, "models", "absorption", "scaler.pkl"),
