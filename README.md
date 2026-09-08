@@ -123,9 +123,7 @@ MolecularPropertyPlatform/
 │   │
 │   └── triplet/
 │       ├── gnn_model.pth
-│       ├── scaler.pkl
-│       └── qi/
-│           └── 预测_GAT_dropout_残差_改进.py
+│       ├── scaler.pkl        
 │
 ├── services/
 │   ├── batch_service.py
