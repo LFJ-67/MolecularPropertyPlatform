@@ -123,7 +123,7 @@ MolecularPropertyPlatform/
 │   │
 │   └── triplet/
 │       ├── gnn_model.pth
-│       ├── scaler.pkl        
+│       └── scaler.pkl        
 │
 ├── services/
 │   ├── batch_service.py
