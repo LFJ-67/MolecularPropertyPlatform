@@ -3,7 +3,7 @@ import pandas as pd
 
 from predictor import manager
 from config import MODEL_CONFIG
-from 预测_GAT_dropout_残差_改进 import predict_new_smiles
+from model import predict_new_smiles
 
 
 # 常见SMILES列名

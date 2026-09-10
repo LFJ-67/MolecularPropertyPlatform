@@ -3,7 +3,7 @@ import joblib
 
 from config import MODEL_CONFIG
 
-from 预测_GAT_dropout_残差_改进 import StableGNN
+from model import StableGNN
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 

@@ -1,44 +1,50 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, send_from_directory
 import os
 import time
-import pandas as pd
-
-from predictor import manager
-from config import MODEL_CONFIG
-from 预测_GAT_dropout_残差_改进 import predict_new_smiles
-
-from services.structure_service import smiles_to_base64, molecule_info
-
+import uuid
 
 from werkzeug.utils import secure_filename
 
-from services.batch_service import (
-    batch_predict_file,
-    load_file
-)
+from predictor import manager
+from config import MODEL_CONFIG
+from model import predict_new_smiles
 
-from flask import send_from_directory
+from services.structure_service import smiles_to_base64, molecule_info
+from services.batch_service import batch_predict_file, load_file
 
+ALLOWED_EXTENSIONS = {".csv", ".xlsx", ".xls"}
 
 app = Flask(__name__)
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-
-UPLOAD_FOLDER = "uploads"
-RESULT_FOLDER = "results"
+UPLOAD_FOLDER = os.path.join(BASE_DIR, "uploads")
+RESULT_FOLDER = os.path.join(BASE_DIR, "results")
 
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(RESULT_FOLDER, exist_ok=True)
 
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 app.config["RESULT_FOLDER"] = RESULT_FOLDER
-
+app.config["MAX_CONTENT_LENGTH"] = 10 * 1024 * 1024
 
 
 @app.route("/")
 def index():
     return render_template("index.html")
 
+@app.route("/health")
+def health():
+    return jsonify({
+        "status": "ok"
+    })
+
+@app.errorhandler(413)
+def request_entity_too_large(error):
+    return jsonify({
+        "success": False,
+        "message": "文件过大，最大允许 10MB。"
+    }), 413
 
 @app.route("/predict", methods=["POST"])
 def predict():
@@ -151,65 +157,52 @@ def structure():
 def upload_file():
 
     if "file" not in request.files:
-
         return jsonify({
-
             "success": False,
-
             "message": "No file."
-
         })
 
     file = request.files["file"]
 
     if file.filename == "":
-
         return jsonify({
-
             "success": False,
-
             "message": "No filename."
-
         })
 
-    filename = secure_filename(file.filename)
+    original_name = secure_filename(file.filename)
+    ext = os.path.splitext(original_name)[1].lower()
+
+    if ext not in ALLOWED_EXTENSIONS:
+        return jsonify({
+            "success": False,
+            "message": "仅支持 .csv、.xlsx、.xls 文件。"
+        })
+
+    filename = f"{uuid.uuid4().hex}{ext}"
 
     filepath = os.path.join(
-
         app.config["UPLOAD_FOLDER"],
-
         filename
-
     )
 
     file.save(filepath)
 
     try:
-
         df = load_file(filepath)
-
     except Exception as e:
-
         return jsonify({
-
             "success": False,
-
             "message": str(e)
-
         })
 
     preview = df.head().to_dict(orient="records")
 
     return jsonify({
-
         "success": True,
-
         "filename": filename,
-
         "columns": list(df.columns),
-
         "preview": preview
-
     })
 
 

@@ -9,6 +9,7 @@ joblib==1.5.2
 scikit-learn==1.6.1
 openpyxl==3.1.5
 rdkit-pypi==2025.03.5
+gunicorn==23.0.0
 #Python 3.9.25
 #pip install -r requirements.txt
 #pip install torch-scatter torch-sparse torch-cluster -f https://data.pyg.org/whl/torch-2.8.0+cpu.html
