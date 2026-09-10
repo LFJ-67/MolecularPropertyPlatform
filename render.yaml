@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: molecular-property-platform
+    runtime: python
+    plan: free
+    branch: main
+    buildCommand: |
+      pip install -r requirements.txt
+      pip install torch-scatter torch-sparse torch-cluster -f https://data.pyg.org/whl/torch-2.8.0+cpu.html
+    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT --workers 2 --timeout 120
+    healthCheckPath: /
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.9.25
+      - key: FLASK_ENV
+        value: production
